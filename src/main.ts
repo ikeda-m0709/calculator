@@ -5,7 +5,7 @@ const display = document.getElementById("display") as HTMLDivElement;
 let preNumber: string = "";
 let currentNumber: string = "";
 let operate: string = "";
-let result: number | string;
+let result: number;
 let temporaryNumber: string = "";
 let isError: boolean = false;
 
@@ -41,7 +41,7 @@ function calculate(operate: string, preNumber: string, currentNumber: string) {
         break;
     }
     if(String(result).length > 8) {
-        result = result.toExponential(3);
+        result = Number(result.toExponential(3));
     }
 }
 
