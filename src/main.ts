@@ -9,6 +9,7 @@ let result: number | string;
 let temporaryNumber: string = "";
 let isError: boolean = false;
 
+
 //Cボタンの挙動
 const clear = document.getElementById("clear") as HTMLButtonElement;
 clear.addEventListener("click", () => {
