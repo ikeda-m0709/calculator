@@ -5,7 +5,7 @@ const display = document.getElementById("display") as HTMLDivElement;
 let preNumber: string = "";
 let currentNumber: string = "";
 let operate: string = "";
-let result: number;
+let result: number | string;
 let temporaryNumber: string = "";
 let isError: boolean = false;
 
@@ -40,8 +40,13 @@ function calculate(operate: string, preNumber: string, currentNumber: string) {
         case "÷": result = parseFloat(preNumber) / parseFloat(currentNumber);
         break;
     }
-    if(String(result).length > 8) {
-        result = Number(result.toExponential(3));
+    
+   //計算時の誤差の時は丸め、誤差でなく8文字を超える場合のみ、計算結果を指数表記に変換
+   const roundedResult = Math.round(Number(result) * 1e12) / 1e12;
+   if(String(roundedResult).length > 8) {
+        result = Number(result).toExponential(3);
+    } else {
+        result = roundedResult;
     }
 }
 
