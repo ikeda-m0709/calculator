@@ -43,7 +43,7 @@ function calculate(operate: string, preNumber: string, currentNumber: string) {
     
    //計算時の誤差の時は丸め、誤差でなく8文字を超える場合のみ、計算結果を指数表記に変換
    const roundedResult = Math.round(Number(result) * 1e12) / 1e12;
-   if(String(roundedResult).length > 8) {
+   if(String(roundedResult).length > 9) {
         result = Number(result).toExponential(3);
     } else {
         result = roundedResult;
@@ -61,7 +61,12 @@ nums.forEach((num) => {
             console.log("エラー内容：入力は無効です。Cボタンを押してください")
             return;
         } 
-        if(currentNumber === "" && numValue === ".") return;
+        //if(currentNumber === "" && numValue === ".") return;
+        //7/13 最初に「.」を押下で「0.」になるように修正
+        if(currentNumber === "" && numValue === ".") {
+            currentNumber = "0.";
+            display.textContent = currentNumber;
+        }
         if(currentNumber.includes(".") && numValue === "." ) return;
         if(currentNumber === "0" && numValue !== ".") {
             currentNumber = "";
