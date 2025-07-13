@@ -106,7 +106,12 @@ calcs.forEach(calc => {
             display.textContent = temporaryNumber;
             return;
         }
-        if((preNumber === "" && currentNumber === "") && calc.textContent !== "−") return;
+        //7/13 最初に－以外の演算子を押下すると「0+」のようにpreNumberが0とする表示に修正
+        //if((preNumber === "" && currentNumber === "") && calc.textContent !== "−") return;
+        if((preNumber === "" && currentNumber === "") && calc.textContent !== "−") {
+            preNumber = "0";
+            operate = String(calc.textContent);
+        }
         if(preNumber === "") {
             preNumber = currentNumber;
             currentNumber = "";
