@@ -112,6 +112,8 @@ calcs.forEach(calc => {
             preNumber = "0";
             operate = String(calc.textContent);
         }
+        //7/13 0.+などの入力をした際に、演算子が無効になる処理
+        if(currentNumber.slice(-1) === "." ) return;
         if(preNumber === "") {
             preNumber = currentNumber;
             currentNumber = "";
