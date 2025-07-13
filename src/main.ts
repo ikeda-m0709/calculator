@@ -61,8 +61,7 @@ nums.forEach((num) => {
             console.log("エラー内容：入力は無効です。Cボタンを押してください")
             return;
         } 
-        //if(currentNumber === "" && numValue === ".") return;
-        //7/13 最初に「.」を押下で「0.」になるように修正
+        //最初に「.」を押下で「0.」になる処理
         if(currentNumber === "" && numValue === ".") {
             currentNumber = "0.";
             display.textContent = currentNumber;
@@ -70,25 +69,24 @@ nums.forEach((num) => {
         if(currentNumber.includes(".") && numValue === "." ) return;
         if(currentNumber === "0" && numValue !== ".") {
             currentNumber = "";
+        }
+        if(currentNumber.length < 8 || (currentNumber.includes(".") && currentNumber.length < 9)) {
+            if(temporaryNumber !=="") {
+                currentNumber = temporaryNumber;
+                temporaryNumber ="";
             }
-            if(currentNumber.length < 8 || (currentNumber.includes(".") && currentNumber.length < 9)) {
-                if(temporaryNumber !=="") {
-                    currentNumber = temporaryNumber;
-                    temporaryNumber ="";
-                }
-                //－の後にも01のような入力を防ぐ
-                if (currentNumber === "−0" && numValue !== ".") {
-                    currentNumber = "−";
-                }
-                currentNumber += numValue;
-                if(preNumber !== "") {
-                    display.textContent = preNumber + operate + currentNumber;
-                } else {
-                    display.textContent = currentNumber;
-                }
+            //－の後にも01のような入力を防ぐ
+            if (currentNumber === "−0" && numValue !== ".") {
+                currentNumber = "−";
+            }
+            currentNumber += numValue;
+            if(preNumber !== "") {
+                display.textContent = preNumber + operate + currentNumber;
+            } else {
+                display.textContent = currentNumber;
             }
         }
-    );
+    });
 });
 
 //演算子ボタンの挙動
@@ -108,7 +106,7 @@ calcs.forEach(calc => {
         }
         if((preNumber === "" && currentNumber === "") && calc.textContent !== "−") return;
         
-        //7/13 0.+などの入力をした際に、演算子が無効になる処理
+        //「0.+」などの入力をした際に、演算子が無効になる処理
         if(currentNumber.slice(-1) === "." ) return;
         if(preNumber === "") {
             preNumber = currentNumber;
