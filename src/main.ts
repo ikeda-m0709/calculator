@@ -105,8 +105,10 @@ calcs.forEach(calc => {
             minusStart = "−";
             display.textContent = minusStart;
             return;
-        }//
-        if((preNumber === "" && currentNumber === "") && calc.textContent !== "−") return;
+        }
+        if((preNumber === "" && currentNumber === "") && calc.textContent !== "−") {
+            preNumber = String(result);
+        };
         
         //「0.+」などの入力をした際に、演算子が無効になる処理
         if(currentNumber.slice(-1) === "." ) return;
@@ -165,9 +167,16 @@ equal.addEventListener("click", () => {
             isError = true;
         } else {
             display.textContent = String(result);
-            preNumber = String(result);
+            //preNumber = String(result);
+            preNumber = "";//これだと、＝後に、演算子による連続計算ができない
             currentNumber = "";
             operate = "";
+            //チェック用
+            console.log(`preNumber:${preNumber}`);
+            console.log(`currentNumber:${currentNumber}`);
+            console.log(`operate:${operate}`);
+            console.log(`result:${result}`);
+
         }
     }
 })
