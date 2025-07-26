@@ -22,6 +22,11 @@ clear.addEventListener("click", () => {
     display.textContent = "0";
 })
 
+//符号・小数点を除いた桁数を返す関数
+function getEffectiveLength(numStr: string): number {
+  return numStr.replace(/[−\-\.]/g, "").length;
+}
+
 //計算用の関数
 function calculate(operate: string, preNumber: string, currentNumber: string) {
     //全角－を半角-に変換する（計算結果NaNを防ぐ）
@@ -40,14 +45,10 @@ function calculate(operate: string, preNumber: string, currentNumber: string) {
         case "÷": result = parseFloat(preNumber) / parseFloat(currentNumber);
         break;
     }
-    
-   //計算時の誤差の時は丸め、誤差でなく8文字を超える場合のみ、計算結果を指数表記に変換
-   const roundedResult = Math.round(Number(result) * 1e12) / 1e12;
-   if(String(roundedResult).length > 9) {
-        result = Number(result).toExponential(3);
-    } else {
-        result = roundedResult;
-    }
+    //
+   if(getEffectiveLength(String(result)) > 8 ) {
+    result = Number(result).toExponential(3);
+   }
 }
 
 //数字ボタンの挙動
@@ -70,7 +71,8 @@ nums.forEach((num) => {
         if(currentNumber === "0" && numValue !== ".") {
             currentNumber = "";
         }
-        if(currentNumber.length < 8 || (currentNumber.includes(".") && currentNumber.length < 9)) {
+
+        if(getEffectiveLength(currentNumber) < 8) {
             if(minusStart !=="") {
                 currentNumber = minusStart;
                 minusStart ="";
