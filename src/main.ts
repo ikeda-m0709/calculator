@@ -6,7 +6,7 @@ let preNumber: string = "";
 let currentNumber: string = "";
 let operate: string = "";
 let result: number | string;
-let temporaryNumber: string = "";
+let minusStart: string = "";
 let isError: boolean = false;
 
 
@@ -17,7 +17,7 @@ clear.addEventListener("click", () => {
     currentNumber = "";
     operate = "";
     result = 0;
-    temporaryNumber = "";
+    minusStart = "";
     isError = false;
     display.textContent = "0";
 })
@@ -71,9 +71,9 @@ nums.forEach((num) => {
             currentNumber = "";
         }
         if(currentNumber.length < 8 || (currentNumber.includes(".") && currentNumber.length < 9)) {
-            if(temporaryNumber !=="") {
-                currentNumber = temporaryNumber;
-                temporaryNumber ="";
+            if(minusStart !=="") {
+                currentNumber = minusStart;
+                minusStart ="";
             }
             //－の後にも01のような入力を防ぐ
             if (currentNumber === "−0" && numValue !== ".") {
@@ -100,10 +100,10 @@ calcs.forEach(calc => {
             return;
         } 
         if((preNumber === "" && currentNumber === "") && calc.textContent === "−") {
-            temporaryNumber = "−";
-            display.textContent = temporaryNumber;
+            minusStart = "−";
+            display.textContent = minusStart;
             return;
-        }
+        }//
         if((preNumber === "" && currentNumber === "") && calc.textContent !== "−") return;
         
         //「0.+」などの入力をした際に、演算子が無効になる処理
@@ -165,6 +165,7 @@ equal.addEventListener("click", () => {
             display.textContent = String(result);
             preNumber = String(result);
             currentNumber = "";
+            operate = "";
         }
     }
 })
